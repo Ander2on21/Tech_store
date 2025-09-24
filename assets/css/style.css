@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+:root {
+  --primary-color: #0056b3;
+  --secondary-color: #6c757d;
+  --background-color: #f8f9fa;
+  --accent-color: #28a745;
+  --font-color: #343a40;
+  --color-error: #dc3545;
+  --color-success: #28a745;
+  --white: #ffffff;
+  --light-gray: #f1f1f1;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--font-color);
+}
+
+/* --- General Styles --- */
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--accent-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+
+/* --- Header & Menu Styles --- */
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header__logo img {
+  height: 70px;
+  width: auto;
+}
+
+.header__nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.header__nav-link {
+  text-decoration: none;
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.header__nav-link:hover {
+  color: var(--accent-color);
+  transform: scale(1.1);
+}
+
+
+/* CARRUSEL */
+.carousel-item img {
+    height: 400px; /* Altura fija para el carrusel */
+    object-fit: cover; /* Cubre el contenedor sin distorsionar */
+    object-position: center;
+}
+.carousel {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* PRODUCTOS */
+.productos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-card.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.product-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-card .card-title a {
+    color: var(--font-color);
+}
+
+.product-card .price {
+    font-size: 1.2em;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.product-card .stock {
+    font-size: 0.9em;
+    color: var(--secondary-color);
+}
+
+.product-card .card-footer {
+    background-color: var(--white);
+    border-top: none;
+}
+
+
+/* Carrito de compras */
+#carrito-container .card {
+    height: 100%;
+}
+
+#carrito-container .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* --- Toast Notification --- */
+.toast {
+    font-family:  Arial;
+    font-size: 16px;
+    font-weight: bold;
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+    transform: translate(-50%, 100px); /* Start off-screen */
+    min-width: 250px;
+    background-color: #333;
+    color: #000000;
+    text-align: center;
+    border-radius: 8px; /* More rounded corners */
+    padding: 16px;
+    z-index: 1050;
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    pointer-events: none; /* Ignore clicks on the hidden toast */
+}
+
+.toast.show {
+    transform: translate(-50%, 0); /* Move to final position */
+    opacity: 1;
+    pointer-events: auto; /* Allow clicks on the shown toast */
+}

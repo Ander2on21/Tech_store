@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Tech Store</title>
+    <link rel="icon" type="image/x-icon" href="./assets/imagenes/logo.ico" />
+     <!-- estilos -->
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <!-- boostrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <!-- este id es el menu -->
+    <div id="menu-placeholder"></div>
+
+    <div class="container">
+        <h1>Nuestros Productos</h1>
+        <div class="productos row">
+            <!-- Los productos se agregarán aquí dinámicamente -->
+        </div>
+    </div>
+
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/productos.js"></script>
+    <script src="./assets/js/inventario.js"></script>
+    <script src="./assets/js/carrito.js"></script>
+    <!-- boostrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let grid = document.querySelector(".productos");
+            let inventario = obtenerInventario();
+            if (inventario) {
+                inventario.forEach(producto => {
+                    const productoOriginal = productos.find(p => p.id === producto.id);
+                    const descripcion = productoOriginal ? productoOriginal.descripcion : '';
+
+                    grid.innerHTML += `
+                    <div class="col-md-4 mb-4">
+                        <div class="product-card card h-100" id="product-card-${producto.id}">
+                            <a href="producto-detalle.html?id=${producto.id}">
+                                <img src="${producto.imagen}" alt="${producto.nombre}" class="card-img-top">
+                            </a>
+                            <div class="card-body">
+                                <h3 class="card-title">
+                                    <a href="producto-detalle.html?id=${producto.id}">${producto.nombre}</a>
+                                </h3>
+                                <p class="card-text">${descripcion.substring(0, 50)}...</p>
+                                <p class="price">${producto.precio}</p>
+                                <p class="stock">Stock: ${producto.stock === 0 ? "Agotado" : producto.stock}</p>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary" ${producto.stock === 0 ? "disabled" : ""} onclick="comprarProducto(${producto.id}, '${producto.nombre}')">Comprar</button>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+            }
+        });
+    </script>
+    <div id="toast" class="toast"></div>
+</body>
+</html>

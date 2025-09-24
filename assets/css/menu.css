@@ -1,0 +1,24 @@
+.header__logo img {
+  height: 70px;
+  width: auto;
+}
+.header__nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+.header__nav-link {
+  text-decoration: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  transition: color 0.3s, transform 0.3s;
+}
+.header__nav-link:hover {
+  color: #1fa83c;
+  transform: scale(1.1);
+}
