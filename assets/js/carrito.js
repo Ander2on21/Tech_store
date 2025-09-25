@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
             carrito.push({ ...productoOriginal, cantidad: cantidad });
         }
         
-        actualizarStock(productoId, cantidad);
+        actualizarStock(productoId, -cantidad);
         guardarCarrito();
         actualizarVistaProducto(productoId);
         showToast(`'${producto.nombre}' ha sido agregado al carrito.`);

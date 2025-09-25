@@ -16,7 +16,7 @@ function actualizarStock(productoId, cantidad) {
     let inventario = obtenerInventario();
     const producto = inventario.find(p => p.id === productoId);
     if (producto) {
-        producto.stock -= cantidad;
+        producto.stock += cantidad;
         localStorage.setItem('inventario', JSON.stringify(inventario));
     }
 }
