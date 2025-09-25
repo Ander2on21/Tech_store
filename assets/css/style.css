@@ -2,8 +2,8 @@
 
 :root {
   --primary-color: #1E4620;
-  --secondary-color: #4A7C59;
-  --background-color: #F2F7F2;
+  --secondary-color: hsl(138, 25%, 39%);
+  --background-color: #95e095;
   --accent-color: #6A994E;
   --font-color: #212529;
   --color-error: #dc3545;
@@ -13,11 +13,11 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: var(--background-color);
-  color: var(--font-color);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--font-color);
 }
 
 /* --- General Styles --- */
@@ -70,7 +70,7 @@ a:hover {
 
 .header__nav-link {
   text-decoration: none;
-  color: var(--secondary-color);
+  color: hsla(0, 0%, 0%, 0.733);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -105,7 +105,7 @@ a:hover {
 }
 
 .product-card.card {
-    border: 1px solid #ddd;
+    border: 2px solid #0000009c;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -118,11 +118,13 @@ a:hover {
 
 .product-card .card-img-top {
     height: 150px;
+    background-color: var(--white);
     object-fit: cover;
 }
 
 .product-card .card-title {
     font-size: 1.1rem;
+    color: var(--font-color)im;
 }
 
 
@@ -132,13 +134,13 @@ a:hover {
 
 .product-card .price {
     font-size: 1.2em;
-    color: var(--primary-color);
+    color: var(--primary-color) ;
     font-weight: bold;
 }
 
 .product-card .stock {
     font-size: 0.9em;
-    color: var(--secondary-color);
+    color: var(--font-color);
 }
 
 .product-card .card-footer {
@@ -203,4 +205,19 @@ a:hover {
     width: auto; /* autoajustar el ancho */
     height: auto; /* autoajustar la altura */
     z-index: 2;
+}
+
+/* --- Auth Page Styles --- */
+.auth-body {
+    background: var(--white);
+}
+
+.auth-card {
+    background-color: var(--white);
+    border: 5px solid #162513;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
