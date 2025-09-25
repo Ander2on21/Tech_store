@@ -1,9 +1,7 @@
 // Este script se ejecuta cuando el contenido del DOM ha sido completamente cargado.
 document.addEventListener("DOMContentLoaded", function() {
-    // Obtiene los elementos del DOM para el contenedor del carrito y el total.
-    const carritoContainer = document.getElementById('carrito-container');
-    const carritoTotal = document.getElementById('carrito-total');
-    // Carga el carrito desde localStorage o inicializa un array vacío si no existe.
+    const carritoLista = document.getElementById('carrito-lista');
+    const resumenContenido = document.getElementById('resumen-contenido');
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
     /**
@@ -12,6 +10,19 @@ document.addEventListener("DOMContentLoaded", function() {
     function guardarCarrito() {
         localStorage.setItem('carrito', JSON.stringify(carrito));
         actualizarIconoCarrito();
+    }
+
+    /**
+     * Muestra una notificación emergente (toast).
+     * @param {string} message - El mensaje a mostrar en el toast.
+     */
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
     }
 
     /**
@@ -25,16 +36,17 @@ document.addEventListener("DOMContentLoaded", function() {
         const producto = inventario.find(p => p.id === productoId);
 
         if (!producto || producto.stock <= 0) {
-            alert("No hay más stock de este producto.");
-            return;
-        }
-
-        if (cantidad > producto.stock) {
-            alert(`Solo quedan ${producto.stock} en existencia.`);
+            showToast("No hay más stock de este producto.");
             return;
         }
 
         const productoEnCarrito = carrito.find(p => p.id === productoId);
+        const cantidadEnCarrito = productoEnCarrito ? productoEnCarrito.cantidad : 0;
+
+        if (cantidad > (producto.stock - cantidadEnCarrito)) {
+            showToast(`Solo quedan ${producto.stock} en existencia.`);
+            return;
+        }
 
         if (productoEnCarrito) {
             productoEnCarrito.cantidad += cantidad;
@@ -46,6 +58,36 @@ document.addEventListener("DOMContentLoaded", function() {
         actualizarStock(productoId, cantidad);
         guardarCarrito();
         actualizarVistaProducto(productoId);
+        showToast(`'${producto.nombre}' ha sido agregado al carrito.`);
+    }
+
+    /**
+     * Modifica la cantidad de un producto en el carrito.
+     * @param {number} productoId - El ID del producto a modificar.
+     * @param {number} cambio - El cambio en la cantidad (+1 o -1).
+     */
+    function modificarCantidad(productoId, cambio) {
+        const productoEnCarrito = carrito.find(p => p.id === productoId);
+        if (!productoEnCarrito) return;
+
+        const inventario = obtenerInventario();
+        const productoInventario = inventario.find(p => p.id === productoId);
+
+        if (cambio > 0 && productoInventario.stock <= 0) {
+            showToast(`No hay más stock de ${productoEnCarrito.nombre}.`);
+            return;
+        }
+
+        if (cambio < 0 && productoEnCarrito.cantidad <= 1) {
+            // Si la cantidad es 1 y se intenta reducir, se elimina el producto
+            eliminarDelCarrito(productoId);
+            return;
+        }
+        
+        productoEnCarrito.cantidad += cambio;
+        actualizarStock(productoId, -cambio); // El stock se suma o resta segun el cambio
+        guardarCarrito();
+        mostrarCarrito();
     }
 
     /**
@@ -53,59 +95,102 @@ document.addEventListener("DOMContentLoaded", function() {
      * @param {number} productoId - El ID del producto a eliminar.
      */
     function eliminarDelCarrito(productoId) {
-        const productoEnCarrito = carrito.find(p => p.id === productoId);
-        if (productoEnCarrito) {
-            // Restaura el stock en el inventario y filtra el producto fuera del carrito.
-            actualizarStock(productoId, -productoEnCarrito.cantidad);
-            carrito = carrito.filter(p => p.id !== productoId);
+        const productoIndex = carrito.findIndex(p => p.id === productoId);
+        if (productoIndex > -1) {
+            const productoEnCarrito = carrito[productoIndex];
+            // Restaura el stock en el inventario.
+            actualizarStock(productoId, productoEnCarrito.cantidad);
+            // Elimina el producto del carrito
+            carrito.splice(productoIndex, 1);
             guardarCarrito();
-            mostrarCarrito(); // Vuelve a renderizar el carrito
-            actualizarVistaProducto(productoId);
+            mostrarCarrito();
+            showToast(`${productoEnCarrito.nombre} ha sido eliminado del carrito.`);
         }
     }
 
     /**
-     * Muestra los productos del carrito en la página del carrito.
+     * Muestra los productos del carrito en la página.
      */
     function mostrarCarrito() {
-        if (!carritoContainer) return; // Si no estamos en la página del carrito, no hace nada.
-        carritoContainer.innerHTML = '';
-        let total = 0;
+        if (!carritoLista) return;
+
+        carritoLista.innerHTML = '';
+        if(resumenContenido) resumenContenido.innerHTML = '';
+
         if (carrito.length === 0) {
-            carritoContainer.innerHTML = '<p>El carrito está vacío.</p>';
-            if(carritoTotal) carritoTotal.innerHTML = '';
+            carritoLista.innerHTML = '<p class="text-center">El carrito está vacío.</p>';
             return;
         }
 
-        // Itera sobre los productos del carrito y los muestra.
+        let totalProductos = 0;
+        let totalCompra = 0;
+
+        const tabla = document.createElement('table');
+        tabla.className = 'table';
+        tabla.innerHTML = `
+            <thead>
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Total</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        `;
+        const tbody = tabla.querySelector('tbody');
+
         carrito.forEach(producto => {
-            carritoContainer.innerHTML += `
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}">
-                        <div class="card-body">
-                            <h5 class="card-title">${producto.nombre}</h5>
-                            <p class="card-text">Precio: ${producto.precio}</p>
-                            <p class="card-text">Cantidad: ${producto.cantidad}</p>
-                            <button class="btn btn-danger" onclick="eliminarDelCarrito(${producto.id})">Eliminar</button>
-                        </div>
+            const totalProducto = producto.precio * producto.cantidad;
+            totalProductos += producto.cantidad;
+            totalCompra += totalProducto;
+
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td>
+                    <div class="d-flex align-items-center">
+                        <img src="${producto.imagen}" alt="${producto.nombre}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                        <span>${producto.nombre}</span>
                     </div>
-                </div>
+                </td>
+                <td>$${producto.precio.toFixed(2)}</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="modificarCantidad(${producto.id}, -1)">-</button>
+                        <span class="mx-2">${producto.cantidad}</span>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="modificarCantidad(${producto.id}, 1)">+</button>
+                    </div>
+                </td>
+                <td>$${totalProducto.toFixed(2)}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarDelCarrito(${producto.id})">Eliminar</button>
+                </td>
             `;
-            total += producto.precio * producto.cantidad;
+            tbody.appendChild(fila);
         });
 
-        // Muestra el total de la compra.
-        if(carritoTotal) carritoTotal.innerHTML = `<h3>Total: $${total.toFixed(2)}</h3>`;
+        carritoLista.appendChild(tabla);
+
+        if(resumenContenido) {
+            resumenContenido.innerHTML = `
+                <p><strong>Productos:</strong> ${totalProductos}</p>
+                <p><strong>Total:</strong> $${totalCompra.toFixed(2)}</p>
+                <button class="btn btn-primary w-100">Proceder al Pago</button>
+            `;
+        }
     }
 
     /**
      * Actualiza el número de artículos en el ícono del carrito en el menú.
+     * Lee desde localStorage para asegurar que los datos son correctos incluso con carga asíncrona.
      */
     function actualizarIconoCarrito() {
         const carritoIcon = document.getElementById('carrito-icon');
+        const carritoDesdeStorage = JSON.parse(localStorage.getItem('carrito')) || [];
         if (carritoIcon) {
-            const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            const totalItems = carritoDesdeStorage.reduce((sum, item) => sum + item.cantidad, 0);
             carritoIcon.textContent = `Carrito (${totalItems})`;
         }
     }
@@ -123,33 +208,22 @@ document.addEventListener("DOMContentLoaded", function() {
             if (productoCard) {
                 const stockElement = productoCard.querySelector('.stock');
                 const buttonElement = productoCard.querySelector('button');
-                stockElement.textContent = `Stock: ${producto.stock === 0 ? "Agotado" : producto.stock}`;
-                if (producto.stock === 0) {
-                    buttonElement.disabled = true;
-                } else {
-                    buttonElement.disabled = false;
+                if(stockElement) stockElement.textContent = `Stock: ${producto.stock === 0 ? "Agotado" : producto.stock}`;
+                if (buttonElement) {
+                    buttonElement.disabled = producto.stock === 0;
                 }
             }
         });
     }
-
+    
     // Expone las funciones al objeto global `window` para que puedan ser llamadas desde el HTML (onclick).
     window.agregarAlCarrito = agregarAlCarrito;
+    window.modificarCantidad = modificarCantidad;
     window.eliminarDelCarrito = eliminarDelCarrito;
     window.actualizarIconoCarrito = actualizarIconoCarrito;
 
-    // Si estamos en la página del carrito, lo muestra.
-    if (carritoContainer) {
+    // Inicializa la vista del carrito al cargar la página.
+    if (carritoLista) {
         mostrarCarrito();
-    }
-    // Actualiza el ícono del carrito al cargar la página.
-    actualizarIconoCarrito();
-
-    // Actualiza la vista de todos los productos al cargar la página para reflejar el stock actual.
-    let inventario = obtenerInventario();
-    if (inventario) {
-        inventario.forEach(producto => {
-            actualizarVistaProducto(producto.id);
-        });
     }
 });
