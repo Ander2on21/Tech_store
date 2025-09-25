@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", function() {
             if (typeof actualizarIconoCarrito === 'function') {
                 actualizarIconoCarrito();
             }
+            // Actualiza el menú para reflejar el estado de inicio de sesión.
+            if (typeof actualizarMenu === 'function') {
+                actualizarMenu();
+            }
         });
 
     // Renderiza las secciones de productos destacados y nuevos en la página principal.

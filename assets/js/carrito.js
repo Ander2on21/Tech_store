@@ -176,8 +176,8 @@ document.addEventListener("DOMContentLoaded", function() {
         if(resumenContenido) {
             resumenContenido.innerHTML = `
                 <p><strong>Productos:</strong> ${totalProductos}</p>
-                <p><strong>Total:</strong> $${totalCompra.toFixed(2)}</p>
-                <button class="btn btn-success w-100">Proceder al Pago</button>
+                <p><strong>Total:</strong> ${totalCompra.toFixed(2)}</p>
+                <a href="pago.html" class="btn btn-success w-100">Proceder al Pago</a>
             `;
         }
     }
