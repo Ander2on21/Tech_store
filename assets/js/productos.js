@@ -55,6 +55,7 @@ const productos = [
         stock: 8,
         descripcion: "Laptop ligera y potente, ideal para trabajar o estudiar en cualquier lugar."
     },
+    
     // Oficina
     {
         id: 7,
@@ -141,6 +142,14 @@ const productosDestacados = [
         imagen: "./assets/imagenes/silla.jpg",
         stock: 20,
         descripcion: "Silla ergonómica con soporte lumbar para largas jornadas de trabajo."
+    },
+    {
+        id: 10,
+        nombre: "Micro-USB",
+        precio: 20,
+        imagen: "./assets/imagenes/usb.jpg",
+        stock: 50,
+        descripcion: "Memoria USB de 64GB para almacenar y transportar tus archivos."
     }
 ];
 
@@ -148,7 +157,7 @@ const productosDestacados = [
 // Una selección de productos para mostrar en la sección "Nuevos" de la página principal.
 const productosNuevos = [
     {
-        id: 13,
+        id: 14,
         nombre: "Cable HDMI",
         precio: 15,
         imagen: "./assets/imagenes/cable.jpg",
@@ -156,7 +165,7 @@ const productosNuevos = [
         descripcion: "Cable HDMI de alta velocidad para conectar tus dispositivos a pantallas."
     },
     {
-        id: 12, 
+        id: 15, 
         nombre: "Cargador",
         precio: 30,
         imagen: "./assets/imagenes/cargador.jpg",
@@ -164,11 +173,19 @@ const productosNuevos = [
         descripcion: "Cargador rápido universal para tus dispositivos móviles."
     },
     {
-        id: 11,
+        id: 16,
         nombre: "Disco Duro Externo",
         precio: 80,
         imagen: "./assets/imagenes/disco.jpg",
         stock: 12,
         descripcion: "Disco duro externo de 1TB para copias de seguridad y almacenamiento extra."
+    },
+    {
+        id: 17,
+        nombre: "Laptop Ultrabook",
+        precio: 1200,
+        imagen: "./assets/imagenes/laptop2.jpg",
+        stock: 8,
+        descripcion: "Laptop ligera y potente, ideal para trabajar o estudiar en cualquier lugar."
     }
 ];

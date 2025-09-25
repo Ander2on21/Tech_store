@@ -15,7 +15,7 @@
     <div id="menu-placeholder"></div>
 
     <div class="container">
-        <h1>Nuestros Productos</h1>
+        <h1>Productos</h1>
         <div class="productos row">
             <!-- Los productos se agregarán aquí dinámicamente -->
         </div>
@@ -38,7 +38,7 @@
                     const descripcion = productoOriginal ? productoOriginal.descripcion : '';
 
                     grid.innerHTML += `
-                    <div class="col-md-4 mb-4">
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                         <div class="product-card card h-100" id="product-card-${producto.id}">
                             <a href="producto-detalle.html?id=${producto.id}">
                                 <img src="${producto.imagen}" alt="${producto.nombre}" class="card-img-top">
@@ -47,13 +47,14 @@
                                 <h3 class="card-title">
                                     <a href="producto-detalle.html?id=${producto.id}">${producto.nombre}</a>
                                 </h3>
-                                <p class="card-text">${descripcion.substring(0, 50)}...</p>
-                                <p class="price">${producto.precio}</p>
+                                <p class="card-text">${descripcion.substring(0, 25)}...</p>
+                                <p class="price fs-3">$ ${producto.precio}</p>
                                 <p class="stock">Stock: ${producto.stock === 0 ? "Agotado" : producto.stock}</p>
                             </div>
-                            <div class="card-footer">
-                                <button class="btn btn-primary" ${producto.stock === 0 ? "disabled" : ""} onclick="comprarProducto(${producto.id}, '${producto.nombre}')">Comprar</button>
+                            <div class="card-footer d-grid gap-2">
+                                <button class="btn btn-success" ${producto.stock === 0 ? "disabled" : ""} onclick="comprarProducto(${producto.id}, '${producto.nombre}')">Añadir al Carrito</button>
                             </div>
+                           
                         </div>
                     </div>
                     `;

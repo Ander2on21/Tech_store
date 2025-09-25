@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
     // Renderiza las secciones de productos destacados y nuevos en la página principal.
-    renderProductos(productosDestacados, "productos-destacados");
-    renderProductos(productosNuevos, "productos-nuevos");
+    renderProductos(productosDestacados, "productos-destacados", false);
+    renderProductos(productosNuevos, "productos-nuevos", true);
 });
 
 /**
@@ -48,8 +48,9 @@ window.comprarProducto = comprarProducto;
  * Renderiza una lista de productos en un contenedor específico de la página.
  * @param {Array} productos - El array de productos a mostrar.
  * @param {string} containerId - El ID del elemento contenedor donde se mostrarán los productos.
- */
-function renderProductos(productos, containerId) {
+ * @param {boolean} mostrarNuevo - Indica si se debe mostrar la etiqueta "Nuevo" en los productos.
+*/
+function renderProductos(productos, containerId, mostrarNuevo = false) {
     const container = document.getElementById(containerId);
     let inventario = obtenerInventario(); // Obtiene el inventario actual desde localStorage.
     if (container) {
@@ -57,23 +58,32 @@ function renderProductos(productos, containerId) {
         productos.forEach(producto => {
             const productoInventario = inventario.find(p => p.id === producto.id);
             const stock = productoInventario ? productoInventario.stock : 0;
+            const etiquetaNuevo = mostrarNuevo
+                ? `<span class="new">Nuevo</span>`
+                : '';
+            const etiquetaDestacado = !mostrarNuevo
+                ? `<span class="new">Destacado</span>`
+                : '';
             // Crea el HTML para la tarjeta del producto.
+            
             const productCard = `
-                <div class="col-md-4 mb-4">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                     <div class="product-card card h-100" id="product-card-${producto.id}">
                         <a href="producto-detalle.html?id=${producto.id}">
                             <img src="${producto.imagen}" alt="${producto.nombre}" class="card-img-top">
+                            ${etiquetaNuevo}
+                            ${etiquetaDestacado}
                         </a>
                         <div class="card-body">
                             <h3 class="card-title">
                                 <a href="producto-detalle.html?id=${producto.id}">${producto.nombre}</a>
                             </h3>
                             <p class="card-text">${producto.descripcion.substring(0, 50)}...</p>
-                            <p class="price">$${producto.precio}</p>
+                            <p class="price fs-3">$ ${producto.precio}</p>
                             <p class="stock">Stock: ${stock === 0 ? "Agotado" : stock}</p>
                         </div>
-                        <div class="card-footer">
-                             <button class="btn btn-primary" ${stock === 0 ? "disabled" : ""} onclick="comprarProducto(${producto.id}, '${producto.nombre}')">Comprar</button>
+                        <div class="card-footer d-grid gap-2">
+                             <button class="btn btn-success" ${stock === 0 ? "disabled" : ""} onclick="comprarProducto(${producto.id}, '${producto.nombre}')">Añadir al Carrito</button>
                         </div>
                     </div>
                 </div>

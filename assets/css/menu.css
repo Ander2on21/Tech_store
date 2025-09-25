@@ -11,7 +11,7 @@
 }
 .header__nav-link {
   text-decoration: none;
-  color: #ffffff;
+  color: var(--secondary-color);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -19,6 +19,6 @@
   transition: color 0.3s, transform 0.3s;
 }
 .header__nav-link:hover {
-  color: #1fa83c;
+  color: var(--accent-color);
   transform: scale(1.1);
 }

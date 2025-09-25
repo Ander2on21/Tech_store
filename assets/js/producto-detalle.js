@@ -24,12 +24,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 <h2>${producto.nombre}</h2>
                 <p>${producto.descripcion}</p>
                 <p class="price">Precio: $${producto.precio}</p>
-                <p class="stock">En existencia: ${stock === 0 ? 'Agotado' : stock}</p>
+                <p class="stock">En existencia: ${stock === 0 ? 'Agotado' : stock} </p>
                 <div class="d-flex align-items-center">
                     <button class="btn btn-secondary" id="restar-cantidad">-</button>
                     <span id="cantidad-producto" class="mx-3">1</span>
                     <button class="btn btn-secondary" id="sumar-cantidad">+</button>
-                    <button class="btn btn-primary ms-3" id="agregar-al-carrito-btn" ${stock === 0 ? 'disabled' : ''}>
+                    <button class="btn btn-success ms-3" id="agregar-al-carrito-btn" ${stock === 0 ? 'disabled' : ''}>
                         Agregar al carrito
                     </button>
                 </div>

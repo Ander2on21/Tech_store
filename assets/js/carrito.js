@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function() {
             resumenContenido.innerHTML = `
                 <p><strong>Productos:</strong> ${totalProductos}</p>
                 <p><strong>Total:</strong> $${totalCompra.toFixed(2)}</p>
-                <button class="btn btn-primary w-100">Proceder al Pago</button>
+                <button class="btn btn-success w-100">Proceder al Pago</button>
             `;
         }
     }
