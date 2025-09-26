@@ -4,38 +4,33 @@
 
 Este proyecto es una tienda en línea enfocada en productos tecnológicos, diseñada para simular el flujo completo de un e-commerce de manera práctica y sencilla. Todo el manejo de usuarios, productos y apartados se realiza utilizando el LocalStorage del navegador, evitando la necesidad de una base de datos o backend.
 
-⚙️ Funcionalidades principales
-🔑 Autenticación de usuarios
+## ⚙️ Funcionalidades principales
 
-Login: Los usuarios registrados pueden iniciar sesión ingresando sus credenciales.
+- **Autenticación de usuarios**: Los usuarios pueden registrarse e iniciar sesión. La información se guarda en el LocalStorage.
+- **Catálogo de productos**: Muestra de productos con imagen, nombre, precio, descripción y stock.
+- **Productos destacados y nuevos**: Secciones para resaltar productos.
+- **Carrito de compras**: Los usuarios pueden agregar productos al carrito.
+- **Gestión de inventario**: El stock de los productos se actualiza dinámicamente.
+- **Página de detalles del producto**: Cada producto tiene su propia página con información detallada.
+- **Flujo de pago**: Simulación de un proceso de pago.
 
-Registro: Nuevos usuarios pueden crear una cuenta con sus datos, que se almacenan en el localStorage.
+## 🚀 Cómo empezar
 
-El sistema valida la información para evitar duplicados y garantizar la persistencia en el navegador.
+### Clonar el repositorio
 
-🛍️ Gestión de productos
+```bash
+git clone <https://github.com/Ander2on21/Tech_store.git>
+```
 
 
-Cada producto cuenta con: nombre, imagen, precio, descripción y stock.
 
-🌟 Productos destacados y nuevos
+### Iniciar el proyecto
 
-Nuevos productos: sección dedicada a los artículos recientemente agregados.
+1.  Abre el proyecto en Visual Studio Code.
+2.  Asegúrate de tener la extensión [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) instalada.
+![alt text](image-1.png)
+3.  Posicionate en el archivo del proyecto `index.html` y en la parte de abajo te aparecerá el icono de Live Server y el texto "Go Live. 
 
-Destacados: muestra de productos seleccionados manualmente para resaltar promociones o favoritos.
+ ![alt text](image-2.png)
 
-🗂️ Manejo en LocalStorage
-
-Los datos de usuarios y productos se almacenan en el localStorage, lo que permite:
-
-Persistencia de la información aunque se recargue la página.
-
-Simulación de una base de datos ligera sin necesidad de servidor.
-
-Gestión fácil de login, registro y carrito de compras de manera local.
-
-🚀 Ventajas del proyecto
-
-✅ Interfaz práctica para mostrar el flujo de un e-commerce real.
-
-✅ 100% funcional sin backend, ideal para prácticas o demostraciones.
+4.  Esto abrirá el sitio en tu navegador web predeterminado.
