@@ -207,7 +207,7 @@ a:hover {
     z-index: 2;
 }
 
-/* --- Auth Page Styles --- */
+/* --- para el login y registro --- */
 .auth-body {
     background: var(--white);
 }
@@ -220,4 +220,4 @@ a:hover {
     padding: 1rem;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
+} 
